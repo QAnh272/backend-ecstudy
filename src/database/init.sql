@@ -81,18 +81,6 @@ CREATE TABLE wallet_transactions (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Comments table (product reviews)
-CREATE TABLE comments (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    product_id UUID NOT NULL REFERENCES products(id) ON DELETE CASCADE,
-    user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-    order_id UUID REFERENCES orders(id) ON DELETE CASCADE,
-    content TEXT NOT NULL,
-    rating INTEGER CHECK (rating >= 1 AND rating <= 5),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
 -- Orders table
 CREATE TABLE orders (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -137,9 +125,6 @@ CREATE INDEX idx_cart_items_product_id ON cart_items(product_id);
 CREATE INDEX idx_products_category ON products(category);
 CREATE INDEX idx_products_product_code ON products(product_code);
 CREATE INDEX idx_products_price ON products(price);
-CREATE INDEX idx_comments_product_id ON comments(product_id);
-CREATE INDEX idx_comments_user_id ON comments(user_id);
-CREATE INDEX idx_comments_order_id ON comments(order_id);
 CREATE INDEX idx_orders_user_id ON orders(user_id);
 CREATE INDEX idx_orders_phone ON orders(phone_number);
 CREATE INDEX idx_order_items_order_id ON order_items(order_id);

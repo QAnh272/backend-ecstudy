@@ -18,7 +18,7 @@ const { notFound, errorHandler } = require('./middlewares/errorHandler');
 const app = express();
 
 app.use(cors({
-  origin: '*', // Frontend URL
+  origin: '*',
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']

@@ -13,14 +13,6 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-transporter.verify(function(error, success) {
-  if (error) {
-    console.error('❌ Email transporter verification failed:', error);
-  } else {
-    console.log('✅ Email server is ready to send messages');
-  }
-});
-
 const sendResetPasswordEmail = async (email, resetToken, username) => {
   const resetUrl = `${process.env.FRONTEND_URL || 'http://localhost:3001'}/reset-password?token=${resetToken}`;
   

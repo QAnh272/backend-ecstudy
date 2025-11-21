@@ -47,7 +47,7 @@ class UserService {
 
   // Tìm user theo ID (không trả password)
   static async findById(id) {
-    const query = 'SELECT id, username, email, role, created_at FROM users WHERE id = $1';
+    const query = 'SELECT id, username, email, role, address, phone, created_at FROM users WHERE id = $1';
     const result = await pool.query(query, [id]);
     return result.rows[0];
   }
@@ -56,7 +56,7 @@ class UserService {
   static async getAllUsers(options = {}) {
     const { role, limit = 50, offset = 0 } = options;
     
-    let query = 'SELECT id, username, email, role, created_at FROM users WHERE 1=1';
+    let query = 'SELECT id, username, email, role, address, phone, created_at FROM users WHERE 1=1';
     const values = [];
     let paramCount = 1;
 
@@ -79,7 +79,7 @@ class UserService {
     const values = [];
     let paramCount = 1;
 
-    const allowedFields = ['username', 'email'];
+    const allowedFields = ['username', 'email', 'address', 'phone'];
     
     for (const field of allowedFields) {
       if (userData[field] !== undefined) {
@@ -108,7 +108,7 @@ class UserService {
       UPDATE users 
       SET ${fields.join(', ')}
       WHERE id = $${paramCount}
-      RETURNING id, username, email, role, updated_at
+      RETURNING id, username, email, role, address, phone, updated_at
     `;
 
     const result = await pool.query(query, values);

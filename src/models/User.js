@@ -30,6 +30,14 @@ const UserSchema = {
       default: 'customer',
       check: "role IN ('admin', 'customer')"
     },
+    address: {
+      type: 'TEXT',
+      notNull: false
+    },
+    phone: {
+      type: 'VARCHAR(20)',
+      notNull: false
+    },
     created_at: {
       type: 'TIMESTAMP',
       default: 'CURRENT_TIMESTAMP'

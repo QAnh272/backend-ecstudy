@@ -93,7 +93,9 @@ class AuthController {
             id: user.id,
             username: user.username,
             email: user.email,
-            role: user.role
+            role: user.role,
+            address: user.address,
+            phone: user.phone
           },
           token
         }

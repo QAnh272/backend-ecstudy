@@ -22,16 +22,16 @@ const storage = multer.diskStorage({
   }
 });
 
-// File filter - chỉ chấp nhận ảnh
+// File filter - chấp nhận tất cả các định dạng ảnh phổ biến
 const fileFilter = (req, file, cb) => {
-  const allowedTypes = /jpeg|jpg|png|gif|webp/;
+  const allowedTypes = /jpeg|jpg|png|gif|webp|bmp|svg|avif|tiff|ico/;
   const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
-  const mimetype = allowedTypes.test(file.mimetype);
+  const mimetype = /image\/.*/.test(file.mimetype);
 
   if (mimetype && extname) {
     return cb(null, true);
   } else {
-    cb(new Error('Chỉ chấp nhận file ảnh (JPEG, JPG, PNG, GIF, WEBP)'));
+    cb(new Error('Chỉ chấp nhận file ảnh (JPEG, JPG, PNG, GIF, WEBP, BMP, SVG, AVIF, TIFF)'));
   }
 };
 

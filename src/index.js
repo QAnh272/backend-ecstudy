@@ -29,6 +29,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use('/uploads', express.static('uploads'));
+app.use('/products/images', express.static('uploads'));
 
 pool.query('SELECT NOW()', (err, res) => {
   if (err) {

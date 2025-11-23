@@ -6,6 +6,8 @@
   "scripts": {
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
+    "seed:products": "node src/database/seed-products.js",
+    "postdeploy": "node src/database/post-deploy.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -15,6 +17,7 @@
   "dependencies": {
     "bcrypt": "^6.0.0",
     "cors": "^2.8.5",
+    "csv-parse": "^5.6.0",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "fs": "^0.0.1-security",

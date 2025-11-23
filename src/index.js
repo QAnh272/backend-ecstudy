@@ -5,6 +5,7 @@ require("dotenv").config();
 const pool = require("./config/database");
 const fs = require("fs");
 const path = require("path");
+const { seedProducts } = require("./database/seed-products");
 
 const authRouter = require("./routers/authRouter");
 const userRouter = require("./routers/userRouter");
@@ -18,15 +19,14 @@ const commentRouter = require("./routers/commentRouter");
 const { notFound, errorHandler } = require("./middlewares/errorHandler");
 
 const app = express();
-const sqlPath= path.join(__dirname, "database", "init.sql");
+const sqlPath = path.join(__dirname, "database", "init.sql");
+
 async function initDB() {
   try {
     const sql = fs.readFileSync(sqlPath, "utf8");
     await pool.query(sql);
-    console.log("Database initialized successfully");
-  } catch (err) {
-    console.error("Database initialization error:", err.message);
-  } 
+    await seedProducts();
+  } catch (err) {}
 }
 
 app.use(
@@ -44,12 +44,6 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/uploads", express.static("uploads"));
 app.use("/products/images", express.static("uploads"));
-
-pool.query("SELECT NOW()", (err, res) => {
-  if (err) {
-    console.error("Database connection error:", err);
-  }
-});
 
 app.get("/", (req, res) => {
   res.json({
@@ -79,17 +73,10 @@ app.use("/api/comments", commentRouter);
 app.use(notFound);
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT;
 
 initDB().then(() => {
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
-    console.log(`API documentation available at http://localhost:${PORT}`);
   });
 });
-
-app.get("/", (req, res) => {
-  res.json({ message: "Backend is running" });
-});
-
-module.exports = app;

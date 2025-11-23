@@ -10,7 +10,10 @@ const transporter = nodemailer.createTransport({
   },
   tls: {
     rejectUnauthorized: false
-  }
+  },
+  connectionTimeout: 5000, // 5 giây
+  greetingTimeout: 5000,
+  socketTimeout: 5000
 });
 
 const sendResetPasswordEmail = async (email, resetToken, username) => {

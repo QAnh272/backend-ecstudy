@@ -35,9 +35,11 @@ class OrderController {
   static async getOrderById(req, res, next) {
     try {
       const userId = req.user.id;
+      const userRole = req.user.role;
       const { id } = req.params;
 
-      const order = await OrderService.getOrderById(id, userId);
+      // Admin có thể xem tất cả đơn hàng, user thường chỉ xem đơn của mình
+      const order = await OrderService.getOrderById(id, userRole === 'admin' ? null : userId);
 
       if (!order) {
         return res.status(404).json({

@@ -157,13 +157,19 @@ class AuthController {
       const { user, resetToken } = await UserService.createPasswordResetToken(email);
       console.log('✅ Reset token created for user:', user.username);
 
-      const emailResult = await sendResetPasswordEmail(user.email, resetToken, user.username);
-      console.log('📧 Email send result:', emailResult);
+      // Gửi email bất đồng bộ để không làm chậm response
+      sendResetPasswordEmail(user.email, resetToken, user.username)
+        .then(emailResult => {
+          console.log('📧 Email sent successfully:', emailResult);
+        })
+        .catch(emailError => {
+          console.error('❌ Error sending email (async):', emailError);
+        });
       
+      // Trả response ngay lập tức
       res.json({
         success: true,
-        message: 'Link reset password đã được gửi đến email',
-        resetToken: process.env.NODE_ENV === 'development' ? resetToken : undefined
+        message: 'Link reset password đã được gửi đến email'
       });
     } catch (error) {
       console.error('❌ Forgot password error:', error);

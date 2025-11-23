@@ -4,6 +4,7 @@ const morgan = require("morgan");
 require("dotenv").config();
 const pool = require("./config/database");
 const fs = require("fs");
+const path = require("path");
 
 const authRouter = require("./routers/authRouter");
 const userRouter = require("./routers/userRouter");
@@ -17,10 +18,10 @@ const commentRouter = require("./routers/commentRouter");
 const { notFound, errorHandler } = require("./middlewares/errorHandler");
 
 const app = express();
-
+const sqlPath= path.join(__dirname, "database", "init.sql");
 async function initDB() {
   try {
-    const sql = fs.readFileSync("./database/init.sql", "utf8");
+    const sql = fs.readFileSync(sqlPath, "utf8");
     await pool.query(sql);
     console.log("Database initialized successfully");
   } catch (err) {

@@ -95,6 +95,14 @@ class UserController {
         });
       }
 
+      // Nếu không phải admin, không cho phép thay đổi role
+      if (req.user.role !== 'admin' && updateData.role) {
+        return res.status(403).json({
+          success: false,
+          message: 'Bạn không có quyền thay đổi vai trò'
+        });
+      }
+
       const user = await UserService.updateUser(id, updateData);
 
       res.json({

@@ -3,17 +3,16 @@ const router = express.Router();
 const UserController = require('../controllers/UserController');
 const { authenticate, isAdmin } = require('../middlewares/auth');
 
-// Tất cả routes yêu cầu authentication và admin role
-router.use(authenticate, isAdmin);
+// User có thể cập nhật thông tin cá nhân của chính họ
+router.put('/:id', authenticate, UserController.updateUser);
 
 // Admin quản lý users
-router.get('/', UserController.getAllUsers);
-router.get('/:id', UserController.getUserById);
-router.put('/:id', UserController.updateUser);
-router.delete('/:id', UserController.deleteUser);
+router.get('/', authenticate, isAdmin, UserController.getAllUsers);
+router.get('/:id', authenticate, isAdmin, UserController.getUserById);
+router.delete('/:id', authenticate, isAdmin, UserController.deleteUser);
 
 // Admin phân quyền
-router.post('/:id/promote', UserController.promoteToAdmin);
-router.post('/:id/revoke', UserController.revokeAdmin);
+router.post('/:id/promote', authenticate, isAdmin, UserController.promoteToAdmin);
+router.post('/:id/revoke', authenticate, isAdmin, UserController.revokeAdmin);
 
 module.exports = router;

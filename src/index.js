@@ -26,9 +26,7 @@ async function initDB() {
     console.log("Database initialized successfully");
   } catch (err) {
     console.error("Database initialization error:", err.message);
-  } finally {
-    await pool.end();
-  }
+  } 
 }
 
 app.use(

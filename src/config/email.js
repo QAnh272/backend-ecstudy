@@ -2,22 +2,24 @@ const nodemailer = require('nodemailer');
 
 const transporter = nodemailer.createTransport({
   host: process.env.EMAIL_HOST || 'smtp.gmail.com',
-  port: parseInt(process.env.EMAIL_PORT) || 587,
-  secure: false,
+  port: parseInt(process.env.EMAIL_PORT),
+  secure: true,
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS
   },
+  logger:true,
+  debug:true,
   tls: {
     rejectUnauthorized: false
   },
-  connectionTimeout: 5000, // 5 giây
+  connectionTimeout: 5000,
   greetingTimeout: 5000,
   socketTimeout: 5000
 });
 
 const sendResetPasswordEmail = async (email, resetToken, username) => {
-  const frontendUrl = process.env.FRONTEND_URL || 'https://ecstudy.vercel.app';
+  const frontendUrl = process.env.FRONTEND_URL;
   const resetUrl = `${frontendUrl}/reset-password?token=${resetToken}`;
   const mailOptions = {
     from: `"EC Study" <${process.env.EMAIL_USER}>`,

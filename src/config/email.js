@@ -17,8 +17,8 @@ const transporter = nodemailer.createTransport({
 });
 
 const sendResetPasswordEmail = async (email, resetToken, username) => {
-  const resetUrl = `${process.env.FRONTEND_URL || 'http://localhost:3001'}/reset-password?token=${resetToken}`;
-  
+  const frontendUrl = process.env.FRONTEND_URL || 'https://ecstudy.vercel.app';
+  const resetUrl = `${frontendUrl}/reset-password?token=${resetToken}`;
   const mailOptions = {
     from: `"EC Study" <${process.env.EMAIL_USER}>`,
     to: email,
@@ -62,19 +62,19 @@ const sendResetPasswordEmail = async (email, resetToken, username) => {
     `
   };
 
+  // Check if email is configured
+  if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+    console.warn('⚠️ Email not configured. EMAIL_USER or EMAIL_PASS is missing.');
+    // Return success để không block user, nhưng log warning
+    return { success: true, messageId: 'email-not-configured', warning: 'Email credentials not configured' };
+  }
+
   try {
     const info = await transporter.sendMail(mailOptions);
-    console.log('✅ Email sent successfully:', info.messageId);
-    console.log('📧 Email sent to:', email);
     return { success: true, messageId: info.messageId };
   } catch (error) {
     console.error('❌ Error sending email:', error);
-    console.error('Email config:', {
-      host: process.env.EMAIL_HOST,
-      port: process.env.EMAIL_PORT,
-      user: process.env.EMAIL_USER,
-      passLength: process.env.EMAIL_PASS?.length
-    });
+    // ...existing code...
     throw new Error(`Không thể gửi email: ${error.message}`);
   }
 };

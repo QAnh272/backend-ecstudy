@@ -9,15 +9,15 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 -- ============================================
 -- DROP TABLES (if exists)
 -- ============================================
-DROP TABLE IF EXISTS order_ratings CASCADE;
-DROP TABLE IF EXISTS order_items CASCADE;
-DROP TABLE IF EXISTS orders CASCADE;
-DROP TABLE IF EXISTS comments CASCADE;
-DROP TABLE IF EXISTS wallet_transactions CASCADE;
-DROP TABLE IF EXISTS wallets CASCADE;
-DROP TABLE IF EXISTS cart_items CASCADE;
-DROP TABLE IF EXISTS products CASCADE;
-DROP TABLE IF EXISTS users CASCADE;
+-- DROP TABLE IF EXISTS order_ratings CASCADE;
+-- DROP TABLE IF EXISTS order_items CASCADE;
+-- DROP TABLE IF EXISTS orders CASCADE;
+-- DROP TABLE IF EXISTS comments CASCADE;
+-- DROP TABLE IF EXISTS wallet_transactions CASCADE;
+-- DROP TABLE IF EXISTS wallets CASCADE;
+-- DROP TABLE IF EXISTS cart_items CASCADE;
+-- DROP TABLE IF EXISTS products CASCADE;
+-- DROP TABLE IF EXISTS users CASCADE;
 
 -- ============================================
 -- CREATE TABLES

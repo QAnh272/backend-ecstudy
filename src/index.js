@@ -22,11 +22,21 @@ const app = express();
 const sqlPath = path.join(__dirname, "database", "init.sql");
 
 async function initDB() {
-  try {
-    const sql = fs.readFileSync(sqlPath, "utf8");
-    await pool.query(sql);
-    await seedProducts();
-  } catch (err) {}
+  // Chỉ chạy init DB khi có biến môi trường INIT_DB=true
+  // Để tránh mất dữ liệu mỗi lần restart server
+  if (process.env.INIT_DB) {
+    try {
+      console.log('🔄 Initializing database...');
+      const sql = fs.readFileSync(sqlPath, "utf8");
+      await pool.query(sql);
+      await seedProducts();
+      console.log('✅ Database initialized successfully');
+    } catch (err) {
+      console.error('❌ Error initializing database:', err);
+    }
+  } else {
+    console.log('ℹ️ Skipping database initialization (set INIT_DB=true to initialize)');
+  }
 }
 
 app.use(
